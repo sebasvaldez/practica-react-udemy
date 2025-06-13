@@ -1,29 +1,29 @@
 import { Link as RouterLink } from "react-router-dom";
 import { Google } from "@mui/icons-material";
-import { Button, Grid, Link, TextField, Typography } from "@mui/material";
+import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { checkingAuthentication, startGoogleSignIn } from "../../store/auth";
+import { startGoogleSignIn, startLoginWithEmailAndPassword } from "../../store/auth";
 import { useMemo } from "react";
 
 export const LoginPage = () => {
 
   const dispatch= useDispatch();
 
-  const {status} = useSelector(state => state.auth);
+  const {status, errorMessage} = useSelector(state => state.auth);
 
   const { email, password, onInputChange } = useForm({
     email: "sebas@gmail.com",
-    password: "123456",
+    password: "sebas123",
   });
 
   const isAuthenticating = useMemo(()=> status==="checking", [status]);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log({ email, password });
-    dispatch(checkingAuthentication());
+    //!no es esta l accion a despachar
+    dispatch(startLoginWithEmailAndPassword({email,password}));
   };
 
   const onGoogleSignIn = () => {
@@ -33,7 +33,7 @@ export const LoginPage = () => {
 
   return (
     <AuthLayout title="Login">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className="animate__animated animate__fadeIn animate__faster">
         <Grid container>
           <Grid size={{ xs: 12 }}>
             <TextField
@@ -55,6 +55,23 @@ export const LoginPage = () => {
               onChange={onInputChange}
               sx={{ marginTop: 2 }}
             />
+          </Grid>
+
+          <Grid container
+          display={!!errorMessage?'':'none'}
+          sx={{mt:1}}
+          >
+            <Grid
+            size={{ xs: 12}}
+            
+            >
+              <Alert
+              severity="error"
+              >
+                {errorMessage}
+              </Alert>
+            </Grid>
+
           </Grid>
 
           <Grid container spacing={2} sx={{ marginTop: 2 }} size={{ xs: 12 }}>
