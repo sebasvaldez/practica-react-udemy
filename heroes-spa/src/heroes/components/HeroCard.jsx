@@ -10,7 +10,7 @@ export const HeroCard = ({
 }) => {
   const heroimag = `/assets/heroes/${id}.jpg`;
 
-  const charactersByHero =<p className="card-text">{characters}</p>;
+  const charactersByHero = <p className="card-text">{characters}</p>;
 
   return (
     <div className="col">
@@ -24,13 +24,9 @@ export const HeroCard = ({
               <h5 className="card-title">{superhero}</h5>
               <p className="card-text">{alter_ego}</p>
 
-              {alter_ego !== characters && (
-                charactersByHero
-              )}
+              {alter_ego !== characters && charactersByHero}
               <p className="card-text">{first_appearance}</p>
-              <Link to={`/hero/${id}`}>
-              Mas...
-              </Link>
+              <Link to={`/hero/${id}`}>Mas...</Link>
             </div>
           </div>
         </div>
